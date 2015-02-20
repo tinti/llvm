@@ -308,7 +308,10 @@ enum {
   EM_COGE          = 216, // Cognitive Smart Memory Processor
   EM_COOL          = 217, // iCelero CoolEngine
   EM_NORC          = 218, // Nanoradio Optimized RISC
-  EM_CSR_KALIMBA   = 219  // CSR Kalimba architecture family
+  EM_CSR_KALIMBA   = 219, // CSR Kalimba architecture family
+
+  EM_CPU0          = 900, // CPU0
+  EM_CPU0_LE       = 901, // CPU0LE
 };
 
 // Object file classes.
@@ -489,6 +492,30 @@ enum {
   ODK_GP_GROUP   = 9,   // GP group to use for text/data sections
   ODK_IDENT      = 10,  // ID information
   ODK_PAGESIZE   = 11   // Page size information
+};
+
+// CPU0 Specific e_flags
+enum : unsigned {
+  EF_CPU0_NOREORDER = 0x00000001, // Don't reoder instructions
+  EF_CPU0_PIC       = 0x00000002, // Position independent code
+  EF_CPU0_CPIC      = 0x00000004, // Call object with Position independent code
+
+  //ARCH
+  EF_CPU0_ARCH_1    = 0x00000000, // CPU01 instruction set
+  EF_CPU0_ARCH_2    = 0x10000000, // CPU02 instruction set
+  EF_CPU0_ARCH_3    = 0x20000000, // CPU03 instruction set
+  EF_CPU0_ARCH_4    = 0x30000000, // CPU04 instruction set
+  EF_CPU0_ARCH_5    = 0x40000000, // CPU05 instruction set
+  EF_CPU0_ARCH_32   = 0x50000000, // CPU032 instruction set per linux not elf.h
+  EF_CPU0_ARCH_64   = 0x60000000, // CPU064 instruction set per linux not elf.h
+  EF_CPU0_ARCH_32R2 = 0x70000000, // cpu032r2
+  EF_CPU0_ARCH_64r2 = 0x80000000, // cpu064r2
+  EF_CPU0_ARCH      = 0xf0000000  // Mask for applying EF_MIPS_ARCH_ variant
+};
+
+// ELF Relocation types for Cpu0
+enum {
+#include "ELFRelocs/Cpu0.def"
 };
 
 // Hexagon Specific e_flags

@@ -762,6 +762,8 @@ std::error_code ELFObjectFile<ELFT>::getRelocationValueString(
   case ELF::EM_ARM:
   case ELF::EM_HEXAGON:
   case ELF::EM_MIPS:
+  case ELF::EM_CPU0:
+  case ELF::EM_CPU0_LE:
     res = *SymName;
     break;
   default:
@@ -863,6 +865,9 @@ StringRef ELFObjectFile<ELFT>::getFileFormatName() const {
       return "ELF32-hexagon";
     case ELF::EM_MIPS:
       return "ELF32-mips";
+    case ELF::EM_CPU0:
+    case ELF::EM_CPU0_LE:
+      return "ELF32-cpu0";
     case ELF::EM_PPC:
       return "ELF32-ppc";
     case ELF::EM_SPARC:
@@ -916,6 +921,14 @@ unsigned ELFObjectFile<ELFT>::getArch() const {
       return IsLittleEndian ? Triple::mipsel : Triple::mips;
     case ELF::ELFCLASS64:
       return IsLittleEndian ? Triple::mips64el : Triple::mips64;
+    default:
+      report_fatal_error("Invalid ELFCLASS!");
+    }
+  case ELF::EM_CPU0:
+  case ELF::EM_CPU0_LE:
+    switch (EF.getHeader()->e_ident[ELF::EI_CLASS]) {
+    case ELF::ELFCLASS32:
+      return IsLittleEndian ? Triple::cpu0el : Triple::cpu0;
     default:
       report_fatal_error("Invalid ELFCLASS!");
     }
