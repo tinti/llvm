@@ -147,6 +147,10 @@ def FeatureAClass : SubtargetFeature<"aclass", "ARMProcClass", "AClass",
 def FeatureNaClTrap : SubtargetFeature<"nacl-trap", "UseNaClTrap", "true",
                                        "NaCl trap">;
 
+// HINT instructions
+def FeatureHINT : SubtargetFeature<"hint", "HasHINT", "true",
+                                   "Enable support for HINT instructions">;
+
 // ARM ISAs.
 def HasV4TOps   : SubtargetFeature<"v4t", "HasV4TOps", "true",
                                    "Support ARM v4T instructions">;
@@ -161,10 +165,13 @@ def HasV6Ops    : SubtargetFeature<"v6", "HasV6Ops", "true",
                                    [HasV5TEOps]>;
 def HasV6MOps   : SubtargetFeature<"v6m", "HasV6MOps", "true",
                                    "Support ARM v6M instructions",
-                                   [HasV6Ops]>;
+                                   [HasV6Ops, FeatureHINT]>;
+def HasV6KOps   : SubtargetFeature<"v6k", "HasV6KOps", "true",
+                                   "Support ARM v6k instructions",
+                                   [HasV6Ops, FeatureHINT]>;
 def HasV6T2Ops  : SubtargetFeature<"v6t2", "HasV6T2Ops", "true",
                                    "Support ARM v6t2 instructions",
-                                   [HasV6MOps, FeatureThumb2]>;
+                                   [HasV6MOps, HasV6KOps, FeatureThumb2]>;
 def HasV7Ops    : SubtargetFeature<"v7", "HasV7Ops", "true",
                                    "Support ARM v7 instructions",
                                    [HasV6T2Ops, FeaturePerfMon]>;
@@ -315,12 +322,6 @@ def : ProcNoItin<"iwmmxt",          [HasV5TEOps]>;
 def : Processor<"arm1136j-s",       ARMV6Itineraries, [HasV6Ops]>;
 def : Processor<"arm1136jf-s",      ARMV6Itineraries, [HasV6Ops, FeatureVFP2,
                                                        FeatureHasSlowFPVMLx]>;
-def : Processor<"arm1176jz-s",      ARMV6Itineraries, [HasV6Ops]>;
-def : Processor<"arm1176jzf-s",     ARMV6Itineraries, [HasV6Ops, FeatureVFP2,
-                                                       FeatureHasSlowFPVMLx]>;
-def : Processor<"mpcorenovfp",      ARMV6Itineraries, [HasV6Ops]>;
-def : Processor<"mpcore",           ARMV6Itineraries, [HasV6Ops, FeatureVFP2,
-                                                       FeatureHasSlowFPVMLx]>;
 
 // V6M Processors.
 def : Processor<"cortex-m0",        ARMV6Itineraries, [HasV6MOps, FeatureNoARM,
@@ -331,6 +332,14 @@ def : Processor<"cortex-m1",        ARMV6Itineraries, [HasV6MOps, FeatureNoARM,
                                                        FeatureDB, FeatureMClass]>;
 def : Processor<"sc000",            ARMV6Itineraries, [HasV6MOps, FeatureNoARM,
                                                        FeatureDB, FeatureMClass]>;
+
+// V6K Processors.
+def : Processor<"arm1176jz-s",      ARMV6Itineraries, [HasV6KOps]>;
+def : Processor<"arm1176jzf-s",     ARMV6Itineraries, [HasV6KOps, FeatureVFP2,
+                                                       FeatureHasSlowFPVMLx]>;
+def : Processor<"mpcorenovfp",      ARMV6Itineraries, [HasV6KOps]>;
+def : Processor<"mpcore",           ARMV6Itineraries, [HasV6KOps, FeatureVFP2,
+                                                       FeatureHasSlowFPVMLx]>;
 
 // V6T2 Processors.
 def : Processor<"arm1156t2-s",      ARMV6Itineraries, [HasV6T2Ops,

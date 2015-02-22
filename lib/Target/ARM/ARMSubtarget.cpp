@@ -129,6 +129,7 @@ void ARMSubtarget::initializeEnvironment() {
   HasV5TEOps = false;
   HasV6Ops = false;
   HasV6MOps = false;
+  HasV6KOps = false;
   HasV6T2Ops = false;
   HasV7Ops = false;
   HasV8Ops = false;
@@ -170,6 +171,7 @@ void ARMSubtarget::initializeEnvironment() {
   Thumb2DSP = false;
   UseNaClTrap = false;
   UnsafeFPMath = false;
+  HasHINT = false;
 }
 
 void ARMSubtarget::initSubtargetFeatures(StringRef CPU, StringRef FS) {

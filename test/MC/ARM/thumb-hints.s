@@ -33,16 +33,16 @@
 @ CHECK: isb	sy                      @ encoding: [0xbf,0xf3,0x6f,0x8f]
 
 
-@ CHECK-ERROR: error: instruction requires: armv6m or armv6t2
+@ CHECK-ERROR: error: instruction requires: hint
 @ CHECK-ERROR-NEXT: yield
 
-@ CHECK-ERROR: error: instruction requires: armv6m or armv6t2
+@ CHECK-ERROR: error: instruction requires: hint
 @ CHECK-ERROR-NEXT: wfe
 
-@ CHECK-ERROR: error: instruction requires: armv6m or armv6t2
+@ CHECK-ERROR: error: instruction requires: hint
 @ CHECK-ERROR-NEXT: wfi
 
-@ CHECK-ERROR: error: instruction requires: armv6m or armv6t2
+@ CHECK-ERROR: error: instruction requires: hint
 @ CHECK-ERROR-NEXT: sev
 
 @ CHECK-ERROR: error:

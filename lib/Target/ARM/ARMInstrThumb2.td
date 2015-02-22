@@ -3710,12 +3710,16 @@ def t2HINT : T2I<(outs), (ins imm0_239:$imm), NoItinerary, "hint", ".w\t$imm",
   let Inst{7-0} = imm;
 }
 
+class t2HintAlias<string Asm, dag Result> : t2InstAlias<Asm, Result> {
+  let Predicates = [IsThumb2, HasHINT];
+}
+
 def : t2InstAlias<"hint$p $imm", (t2HINT imm0_239:$imm, pred:$p)>;
-def : t2InstAlias<"nop$p.w", (t2HINT 0, pred:$p)>;
-def : t2InstAlias<"yield$p.w", (t2HINT 1, pred:$p)>;
-def : t2InstAlias<"wfe$p.w", (t2HINT 2, pred:$p)>;
-def : t2InstAlias<"wfi$p.w", (t2HINT 3, pred:$p)>;
-def : t2InstAlias<"sev$p.w", (t2HINT 4, pred:$p)>;
+def : t2HintAlias<"nop$p.w", (t2HINT 0, pred:$p)>;
+def : t2HintAlias<"yield$p.w", (t2HINT 1, pred:$p)>;
+def : t2HintAlias<"wfe$p.w", (t2HINT 2, pred:$p)>;
+def : t2HintAlias<"wfi$p.w", (t2HINT 3, pred:$p)>;
+def : t2HintAlias<"sev$p.w", (t2HINT 4, pred:$p)>;
 def : t2InstAlias<"sevl$p.w", (t2HINT 5, pred:$p)> {
   let Predicates = [IsThumb2, HasV8];
 }

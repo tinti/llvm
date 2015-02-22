@@ -272,13 +272,13 @@ class T1SystemEncoding<bits<8> opc>
 def tHINT : T1pI<(outs), (ins imm0_15:$imm), NoItinerary, "hint", "\t$imm",
                  [(int_arm_hint imm0_15:$imm)]>,
             T1SystemEncoding<0x00>,
-            Requires<[IsThumb, HasV6M]> {
+            Requires<[IsThumb, HasHINT]> {
   bits<4> imm;
   let Inst{7-4} = imm;
 }
 
 class tHintAlias<string Asm, dag Result> : tInstAlias<Asm, Result> {
-  let Predicates = [IsThumb, HasV6M];
+  let Predicates = [IsThumb, HasHINT];
 }
 
 def : tHintAlias<"nop$p", (tHINT 0, pred:$p)>; // A8.6.110
